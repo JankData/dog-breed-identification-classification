@@ -2,3 +2,4 @@ tensorflow
 gradio
 pillow
 numpy
+tensorflow-hub
