@@ -58,7 +58,7 @@ def predict_breed(img: Image.Image):
     results = {CLASSES[i]: float(preds[i])*100 for i in top3_idx}
     return results
 
-title = "Dog Breed Identifier 🐶"
+title = "Doggo Breed Identifier 🐶"
 description = (
     "Upload a clear photo of a dog. "
     "The model will predict the top 3 breeds and show its confidence.\n\n"
