@@ -101,8 +101,18 @@ def rebuild_model_and_load_weights():
             features = list(features.values())[0]
     outputs = tf.keras.layers.Dense(len(CLASSES), activation="softmax", name="classifier_head")(features)
     m = tf.keras.Model(inputs=inputs, outputs=outputs)
-    m.load_weights(WEIGHTS_PATH)
-    print("Rebuilt model and loaded weights successfully.")
+    try:
+        m.load_weights(WEIGHTS_PATH)
+        print("Rebuilt model: full weights load succeeded.")
+    except Exception as e_full:
+        print("Full weights load failed:", str(e_full))
+        print("Attempting partial weights load using by_name=True and skip_mismatch=True ...")
+        try:
+            m.load_weights(WEIGHTS_PATH, by_name=True, skip_mismatch=True)
+            print("Partial weights load succeeded (by_name, skip_mismatch).")
+        except Exception as e_partial:
+            print("Partial weights load failed:", str(e_partial))
+            raise
     return m
 
 def load_model_with_fallbacks():
