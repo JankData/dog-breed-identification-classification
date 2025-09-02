@@ -1,35 +1,75 @@
 # Dog Breed Identification
 
-This repository contains my solution notebook for the [Dog Breed Identification competition](https://www.kaggle.com/c/dog-breed-identification) on Kaggle.  
-The goal of the competition is to classify images of dogs into **120 different breeds** using machine learning and deep learning models.
+This repository contains two notebooks for dog-breed classification using CNNs and transfer learning.  
+- **Primary goal (notebook 1):** solve the [Kaggle Dog Breed Identification competition](https://www.kaggle.com/c/dog-breed-identification).  
+- **Secondary goal (notebook 2):** produce a model & demo hosted on [Hugging Face Spaces](https://huggingface.co/spaces/JankData/dog-breed-identification-classification)
+
+Both notebooks share a similar overall pipeline (image preprocessing, augmentation, transfer learning, classifier head, training/early stopping, evaluation), but they differ in dataset source and packaging for deployment.
 
 ---
 
-## Project Structure
-- `dog_breed_id.ipynb` – main notebook with data exploration, preprocessing, model building, training, and evaluation.  
-- `full_model_predictions_resnetv2_1.csv` – my prediction file submitted to Kaggle.
-This submission achieved a **log loss score of 1.02864** on the public leaderboard
+## Repository structure
+- `dog_breed_id.ipynb` — original notebook (Kaggle-focused).  
+  - Includes the Kaggle submission file `full_model_predictions_resnetv2_1.csv`.  
+  - **Public leaderboard (submission): log loss 1.02864**.
+- `dog_breed_id_version2.ipynb` — second notebook (version2) intended for hosting on Hugging Face Spaces.  
+  - Uses the Stanford ImageNet Dogs dataset (link below).  
+  - Contains code and assets used to create the Hugging Face Space demo.
 
 ---
 
-## Dataset
-**Source:** [Kaggle Dog Breed Identification Dataset](https://www.kaggle.com/c/dog-breed-identification/data)  
+## images in `results/`
+
+Training / validation accuracy & loss:  
+![Training & Validation Accuracy & Loss](results/training_val_acc_loss.png)
+
+Per-class accuracy:  
+![Per-class Accuracy](results/accuracy_per_class.png)
+
+Confusion matrix:  
+![Confusion Matrix](results/confusion_matrix.png)
+
+---
+
+## Datasets used
+- **Kaggle Dog Breed Identification dataset** — used for the competition-focused notebook.  
+  (Original Kaggle competition: https://www.kaggle.com/c/dog-breed-identification)
+- **Stanford ImageNet Dogs** — used in `dog_breed_id_version2.ipynb` and for the Hugging Face demo:  
+  http://vision.stanford.edu/aditya86/ImageNetDogs/  
+  These two datasets are very similar and have substantial overlap; `version2` demonstrates training/evaluation on the Stanford dataset and packaging for a model demo.
+
+---
+
+## What changed between notebooks
+- **Notebook 1 (`dog_breed_id.ipynb`)**
+  - Focus: compete on Kaggle.
+  - Dataset: Kaggle competition dataset.
+  - Deliverables: Kaggle submission CSV and exploration notebook.
+  - Result: submission with log loss **1.02864**.
+
+- **Notebook 2 (`dog_breed_id_version2.ipynb`)**
+  - Focus: reproducibility + hosting a model demo on Hugging Face Spaces.
+  - Dataset: Stanford ImageNet Dogs (cleaned / reformatted for the demo).
+  - Extra outputs: plots and artifacts saved to `results/` (training curves, per-class accuracy, confusion matrix).
+  - Packaging: model + preprocessing saved in a format suitable for inference in the Hugging Face Space linked above.
 
 ---
 
 ## Approach
-- Preprocessing and augmentation of input images.  
-- Transfer learning with **ResNetV2 feature extractors** ResNetV2-50 from Kaggle.  
-- Added classification head with softmax activation.  
-- Trained with **early stopping** and **TensorBoard monitoring**.  
-- Evaluated using log loss and accuracy.  
+- Data loading, cleaning and class mapping.  
+- Image preprocessing and augmentation.  
+- Transfer learning using a modern CNN backbone.  
+- A classification head (dense layers → softmax) for the 120 dog classes.  
+- Training with early stopping and checkpointing; model evaluation using accuracy, per-class metrics, and confusion matrix.  
+- For the demo notebook the model and minimal inference code are prepared for the Hugging Face space.
+
+See each notebook for code cells that show exact model architecture, hyperparameters, augmentation pipeline, and training logs.
 
 ---
 
-## Requirements
-This notebook was developed in **Google Colab** using **TensorFlow 2.x**.  
+## Requirements & environment
+Notebook development was done in **Google Colab** (TensorFlow 2.x). To run locally, the following packages are recommended:
 
-Install dependencies (if running locally):  
 ```bash
-pip install tensorflow tensorflow-hub matplotlib pandas numpy
+pip install tensorflow tensorflow-hub matplotlib pandas numpy scikit-learn pillow seaborn jupyterlab
 ```
