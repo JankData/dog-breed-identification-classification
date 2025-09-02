@@ -2,7 +2,7 @@
 
 This repository contains two notebooks for dog-breed classification using CNNs and transfer learning.  
 - **Primary goal (notebook 1):** solve the [Kaggle Dog Breed Identification competition](https://www.kaggle.com/c/dog-breed-identification).  
-- **Secondary goal (notebook 2):** produce a model & demo hosted on [Hugging Face Spaces](https://huggingface.co/spaces/JankData/dog-breed-identification-classification)
+- **Secondary goal (notebook 2):** produce a model & demo hosted on [Hugging Face Spaces](https://huggingface.co/spaces/JankData/dog-breed-identification-classification).
 
 Both notebooks share a similar overall pipeline (image preprocessing, augmentation, transfer learning, classifier head, training/early stopping, evaluation), but they differ in dataset source and packaging for deployment.
 
